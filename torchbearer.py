@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 CS 460 – Algorithms: Final Programming Assignment
 The Torchbearer
@@ -84,6 +85,47 @@ def run_dijkstra(graph, source):
 
     TODO
     """
+
+    dist = {node: float('inf') for node in graph}
+    dist[source] = 0
+    heap = []
+    heapq.heappush(heap, (0,source))
+    print(dist)
+
+
+    while heap:
+        smallest_dist, smallest_elem = heapq.heappop(heap)
+        print(smallest_elem)
+
+        if smallest_dist > dist[smallest_elem]:
+            continue
+
+        length = len(graph[smallest_elem])
+        for i in range(length): #discover edges
+            t = (graph[smallest_elem][i][1], graph[smallest_elem][i][0])
+            print(t)
+            new_dist = dist[smallest_elem] + t[0]
+            if new_dist < dist[t[1]]:
+                 heapq.heappush(heap, t)
+                 dist[t[1]] = new_dist
+
+    print(dist)
+
+
+
+
+
+
+
+
+
+    """
+    for i in range(length):
+        t = (graph[source][i][1], graph[source][i][0])
+        heapq.heappush(heap, t)
+        print(graph[source][i])
+    """
+
 
     pass
 
@@ -293,3 +335,14 @@ if __name__ == "__main__":
     # _run_tests()
     source =  select_sources('S', ['B', 'C', 'D'], 'T')
     print(source)
+    graph_1 = {
+        'S': [('B', 1), ('C', 2), ('D', 2)],
+        'B': [('D', 1), ('T', 1)],
+        'C': [('B', 1), ('T', 1)],
+        'D': [('B', 1), ('C', 1)],
+        'T': []
+    }
+
+    run_dijkstra(graph_1, source[0])
+
+
