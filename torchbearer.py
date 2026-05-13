@@ -56,7 +56,16 @@ def select_sources(spawn, relics, exit_node):
 
     TODO
     """
-    pass
+
+    source = []
+    source.append(spawn)
+    for i in range(len(relics)):
+        source.append(relics[i])
+
+    return source
+
+
+
 
 
 def run_dijkstra(graph, source):
@@ -75,6 +84,7 @@ def run_dijkstra(graph, source):
 
     TODO
     """
+
     pass
 
 
@@ -280,4 +290,6 @@ def _run_tests():
 
 
 if __name__ == "__main__":
-    _run_tests()
+    # _run_tests()
+    source =  select_sources('S', ['B', 'C', 'D'], 'T')
+    print(source)

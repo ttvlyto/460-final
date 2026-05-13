@@ -17,13 +17,13 @@
 > per question. Each bullet should be 1-2 sentences max.
 
 - **Why a single shortest-path run from S is not enough:**
-  _Your answer here._
+  _A single shortest path is not enough, because you need to collect all relics before leaving the dungeon. Therefore we are not looking for the shortest path to the exit, but the shortest path while collecting all relics._
 
 - **What decision remains after all inter-location costs are known:**
-  _Your answer here._
+  _Once all interlocations are known, you must then decided in what order to traverse the path to reduce the minimum number of edges while collecting all relics._
 
 - **Why this requires a search over orders (one sentence):**
-  _Your answer here._
+  _We must search over orders because we can collect the relics in any order, meaning that we must see which order is the most optimal to collect said relics._
 
 ---
 
@@ -35,8 +35,8 @@
 
 | Source Node Type | Why it is a source |
 |---|---|
-| _node type_ | _one-line reason_ |
-| _node type_ | _one-line reason_ |
+| _Start node_| _Because every problems starts here and see the cheapest cost to each relic_|
+| _Relic node_| _Because every relic needs to be reached, and you cannot end at a relic, so you can only go to toher relic or T_ |
 
 ### Part 2b: Distance Storage
 
@@ -44,11 +44,11 @@
 
 | Property | Your answer |
 |---|---|
-| Data structure name | |
-| What the keys represent | |
-| What the values represent | |
-| Lookup time complexity | |
-| Why O(1) lookup is possible | |
+| Data structure name |Hashtable |
+| What the keys represent |Using 2 keys, you could express the source node and the next travelled to |
+| What the values represent |value would represent the cost of travelling to from source node to second key |
+| Lookup time complexity | O(1)|
+| Why O(1) lookup is possible | Since we are using keys, there is no need to check individual buckets, we can jump straight to bucket|
 
 ### Part 2c: Precomputation Complexity
 
