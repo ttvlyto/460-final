@@ -50,8 +50,8 @@ _Your entry here._
 | Part | Estimated Hours |
 |---|---|
 | Part 1: Problem Analysis | 45 mins|
-| Part 2: Precomputation Design | 2hour 15 mins|
-| Part 3: Algorithm Correctness | |
+| Part 2: Precomputation Design | 2 hour 15 mins|
+| Part 3: Algorithm Correctness | 1 hour 15 mins |
 | Part 4: Search Design | |
 | Part 5: State and Search Space | |
 | Part 6: Pruning | |

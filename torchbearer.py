@@ -19,7 +19,6 @@ Submit this file as: torchbearer.py
 """
 
 import heapq
-from pprint import pprint
 
 
 # =============================================================================
@@ -36,7 +35,13 @@ def explain_problem():
 
     TODO
     """
-    return "TODO"
+    return """
+    Why a single shortest-path run from S is not enough: A single shortest path is not enough, because you need to collect all relics before leaving the dungeon. Therefore we are not looking for the shortest path to the exit, but the shortest path while collecting all relics.
+
+    What decision remains after all inter-location costs are known: Once all interlocations are known, you must then decided in what order to traverse the path to reduce the minimum number of edges while collecting all relics.
+
+    Why this requires a search over orders (one sentence): We must search over orders because we can collect the relics in any order, meaning that we must see which order is the most optimal to collect said relics.
+    """
 
 
 # =============================================================================
@@ -143,8 +148,10 @@ def precompute_distances(graph, spawn, relics, exit_node):
             print(f"{key}, {compute[key]}")
             distances[sources[i]][key] = compute[key]
     print("finished\n")
-    for source, row in distances.items():
-        print(f"{source}: {row}")
+    #for source, row in distances.items():
+        #print(f"{source}: {row}")
+
+    return distances
 
 # =============================================================================
 # PART 3
@@ -204,6 +211,9 @@ def find_optimal_route(dist_table, spawn, relics, exit_node):
 
     TODO
     """
+
+
+
     pass
 
 
@@ -339,9 +349,9 @@ if __name__ == "__main__":
         'T': []
     }
 
-    for i in range(len(source)):
-        run_dijkstra(graph_1, source[i])
-    precompute_distances(graph_1, 'S', ['B', 'C', 'D'], 'T')
+    dist = precompute_distances(graph_1, 'S', ['B', 'C', 'D'], 'T')
+    print(dist)
+    
 
 
 

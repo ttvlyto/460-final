@@ -56,8 +56,8 @@
 
 - **Number of Dijkstra runs:** _You would  have to run it for V - 1 times, where n is the number of nodes in the graph. You would need to run it on all sources nodes._
 - **Cost per run:** _O((V+E) log V)_
-- **Total complexity:** _ (O(((V + E) log V))(V-1))_
-- **Justification (one line):** _Dijkstras alone will cost (O((V + E) log V)), and it must be run for every source node. This means that the only node that doesnt get dijkstras performed on it would be hence V - 1. _
+- **Total complexity:** _(O(((V + E) log V))(V-1))_
+- **Justification (one line):** _Dijkstras alone will cost (O((V + E) log V)), and it must be run for every source node. This means that the only node that doesnt get dijkstras performed on it would be hence V - 1._
 
 ---
 
@@ -72,23 +72,23 @@
 > Do not copy the invariant text from the spec.
 
 - **For nodes already finalized (in S):**
-  _Your answer here._
+  _For finalized nodes, the value of dict[v] will contain the shortest path from a given source._
 
 - **For nodes not yet finalized (not in S):**
-  _Your answer here._
+  _For unfinalized node, dict[v] will hold the current shortest path that has been found, but there could exist a true shortest path._
 
 ### Part 3b: Why Each Phase Holds
 
 > One to two bullets per phase. Maintenance must mention nonnegative edge weights.
 
 - **Initialization : why the invariant holds before iteration 1:**
-  _Your answer here._
+  _The heap must not be empty and the distance from source to itself must be 0._
 
 - **Maintenance : why finalizing the min-dist node is always correct:**
-  _Your answer here._
+  _This allows us to skip stale entries, and avoid recomputing paths that are clearly not going to produce shorter paths._
 
 - **Termination : what the invariant guarantees when the algorithm ends:**
-  _Your answer here._
+  _The heap will be empty and all entries in dict will hold the true shortest path from source to every other node._
 
 ### Part 3c: Why This Matters for the Route Planner
 
