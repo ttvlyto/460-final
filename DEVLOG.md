@@ -15,7 +15,7 @@
 > Required. Write this before writing any code. Describe your plan: what you will
 > implement first, what parts you expect to be difficult, and how you plan to test.
 
-_Your entry here._
+_First I plan to use dijkstras to find the shortest path to every node. Once that is computer I plan on using a dynamic programming approach for saving time on calculations to other shortest nodes. After that I will worl on finding an optimal route. This is where I think the precomputed distances will come in handy.   ._
 
 ---
 
@@ -49,8 +49,8 @@ _Your entry here._
 
 | Part | Estimated Hours |
 |---|---|
-| Part 1: Problem Analysis | |
-| Part 2: Precomputation Design | |
+| Part 1: Problem Analysis | 45 mins|
+| Part 2: Precomputation Design | 2hour 15 mins|
 | Part 3: Algorithm Correctness | |
 | Part 4: Search Design | |
 | Part 5: State and Search Space | |

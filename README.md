@@ -36,7 +36,7 @@
 | Source Node Type | Why it is a source |
 |---|---|
 | _Start node_| _Because every problems starts here and see the cheapest cost to each relic_|
-| _Relic node_| _Because every relic needs to be reached, and you cannot end at a relic, so you can only go to toher relic or T_ |
+| _Relic node_| _Because every relic needs to be reached, and you cannot end at a relic, so you can only go to another relic or T_ |
 
 ### Part 2b: Distance Storage
 
@@ -54,10 +54,10 @@
 
 > State the total complexity and show the arithmetic. Two to three lines max.
 
-- **Number of Dijkstra runs:** _your answer_
-- **Cost per run:** _your answer_
-- **Total complexity:** _your answer_
-- **Justification (one line):** _your answer_
+- **Number of Dijkstra runs:** _You would  have to run it for V - 1 times, where n is the number of nodes in the graph. You would need to run it on all sources nodes._
+- **Cost per run:** _O((V+E) log V)_
+- **Total complexity:** _ (O(((V + E) log V))(V-1))_
+- **Justification (one line):** _Dijkstras alone will cost (O((V + E) log V)), and it must be run for every source node. This means that the only node that doesnt get dijkstras performed on it would be hence V - 1. _
 
 ---
 

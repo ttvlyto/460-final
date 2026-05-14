@@ -19,6 +19,7 @@ Submit this file as: torchbearer.py
 """
 
 import heapq
+from pprint import pprint
 
 
 # =============================================================================
@@ -90,12 +91,10 @@ def run_dijkstra(graph, source):
     dist[source] = 0
     heap = []
     heapq.heappush(heap, (0,source))
-    print(dist)
 
 
     while heap:
         smallest_dist, smallest_elem = heapq.heappop(heap)
-        print(smallest_elem)
 
         if smallest_dist > dist[smallest_elem]:
             continue
@@ -103,31 +102,14 @@ def run_dijkstra(graph, source):
         length = len(graph[smallest_elem])
         for i in range(length): #discover edges
             t = (graph[smallest_elem][i][1], graph[smallest_elem][i][0])
-            print(t)
             new_dist = dist[smallest_elem] + t[0]
             if new_dist < dist[t[1]]:
                  heapq.heappush(heap, t)
                  dist[t[1]] = new_dist
 
-    print(dist)
 
+    return dist
 
-
-
-
-
-
-
-
-    """
-    for i in range(length):
-        t = (graph[source][i][1], graph[source][i][0])
-        heapq.heappush(heap, t)
-        print(graph[source][i])
-    """
-
-
-    pass
 
 
 def precompute_distances(graph, spawn, relics, exit_node):
@@ -147,8 +129,22 @@ def precompute_distances(graph, spawn, relics, exit_node):
 
     TODO
     """
-    pass
+    sources = select_sources(spawn, relics, exit_node)
+    distances = {node: {nodes: float('inf') for nodes in graph} for node in sources}
+    print(distances)
+    print("Begining computation")
 
+    length = len(sources)
+    for i in range(length):
+        compute = run_dijkstra(graph, sources[i])
+        print(sources[i])
+
+        for key in compute:
+            print(f"{key}, {compute[key]}")
+            distances[sources[i]][key] = compute[key]
+    print("finished\n")
+    for source, row in distances.items():
+        print(f"{source}: {row}")
 
 # =============================================================================
 # PART 3
@@ -343,6 +339,10 @@ if __name__ == "__main__":
         'T': []
     }
 
-    run_dijkstra(graph_1, source[0])
+    for i in range(len(source)):
+        run_dijkstra(graph_1, source[i])
+    precompute_distances(graph_1, 'S', ['B', 'C', 'D'], 'T')
+
+
 
 
