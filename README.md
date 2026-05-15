@@ -105,17 +105,27 @@ _Your answer here._
 > State the failure mode. Then give a concrete counter-example using specific node names
 > or costs (you may use the illustration example from the spec). Three to five bullets.
 
-- **The failure mode:** _Your answer here._
-- **Counter-example setup:** _Your answer here._
-- **What greedy picks:** _Your answer here._
-- **What optimal picks:** _Your answer here._
-- **Why greedy loses:** _Your answer here._
+I will be using the following graph, a variation of graph_1
+ graph = {
+        'S': [('B', 1), ('C', 2), ('D', 2)],
+        'B': [('D', 5), ('T', 1)],
+        'C': [('B', 1), ('T', 1)],
+        'D': [('B', 1), ('C', 1)],
+        'T': []
+    }
+
+
+- **The failure mode:** _This example fails because when using a purely greedy implementation, would take 'B' first since its the locally optimal choice, but then forces you but it forces you to incur 5, right after with no way to back track._
+- **Counter-example setup:** _The real optimal answer would be S->D->C->B->T. with a cost of 5. Picking a not optimal choice of 'D' first, allows us to avoid the heavy penalty you would incur from taking the 'B' path first._
+- **What greedy picks:** _Greedy picks after 'S', greedy would pick 'B' first, as it the cheapest out of the other sources._
+- **What optimal picks:** _Optimal picks 'D' first since we incur a smaller penalty first, but can avoid taking a heavy penalty later._
+- **Why greedy loses:** _Greedy loses because we go with the locally optimal choice 'B', however for a problem like this, you would bneed to explore other paths before committing to one._
 
 ### What the Algorithm Must Explore
 
 > One bullet. Must use the word "order."
 
-- _Your answer here._
+- _The algorithm must explore all the possible paths. Since there is a limited number of relics, you could get the permutation of relic orders, and traverse the graph that way._
 
 ---
 

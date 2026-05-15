@@ -3,8 +3,8 @@
 CS 460 – Algorithms: Final Programming Assignment
 The Torchbearer
 
-Student Name: ___________________________
-Student ID:   ___________________________
+Student Name: Manuel Jimenez
+Student ID:   828131233
 
 INSTRUCTIONS
 ------------
@@ -136,7 +136,6 @@ def precompute_distances(graph, spawn, relics, exit_node):
     """
     sources = select_sources(spawn, relics, exit_node)
     distances = {node: {nodes: float('inf') for nodes in graph} for node in sources}
-    print(distances)
     print("Begining computation")
 
     length = len(sources)
@@ -148,8 +147,8 @@ def precompute_distances(graph, spawn, relics, exit_node):
             print(f"{key}, {compute[key]}")
             distances[sources[i]][key] = compute[key]
     print("finished\n")
-    #for source, row in distances.items():
-        #print(f"{source}: {row}")
+    for source, row in distances.items():
+        print(f"{source}: {row}")
 
     return distances
 
@@ -213,8 +212,21 @@ def find_optimal_route(dist_table, spawn, relics, exit_node):
     """
 
 
+    best = [float('inf'), []]
+    cost_so_far = 0
+    curr_loc = spawn
+    remaining_relics = relics
+    relics_visited_order = []
 
-    pass
+    _explore(dist_table, curr_loc, remaining_relics, relics_visited_order, cost_so_far, exit_node, best)
+    print(best)
+
+    return tuple(best)
+
+
+
+
+
 
 
 def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
@@ -246,7 +258,49 @@ def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
     explaining why it is safe (cannot skip the optimal solution).
     This comment is graded.
     """
-    pass
+
+    length = len(relics_remaining)
+
+    print(f"relics remaining: {length}")
+
+    if length == 0:
+        if dist_table[current_loc][exit_node]:
+            if cost_so_far < best[0]:
+                best[0] = cost_so_far + dist_table[current_loc][exit_node]
+                best[1] = list(relics_visited_order)
+                return
+        
+        return 
+    elif cost_so_far > best[0]:
+        return
+    else:
+        """
+        next_node = relics_remaining.pop(0)
+        relics_visited_order.append(next_node)
+        print(f"curr node{current_loc}, node popped off {next_node}")
+
+        cost_so_far += dist_table[current_loc][next_node]
+        current_loc = next_node
+        print(f"new cost: {cost_so_far}\n")
+        """
+        for relic in list(relics_remaining): # relic remaining
+            relics_remaining.remove(relic)
+            relics_visited_order.append(relic)
+            cost = cost_so_far + dist_table[current_loc][relic]
+            print(f"curr node{current_loc}, node popped off {relic}")
+            print(f"cost: {cost}\n")
+            _explore(dist_table, relic, relics_remaining, relics_visited_order, cost, exit_node, best)   
+            relics_visited_order.pop()
+            relics_remaining.append(relic)
+
+
+        
+        
+        
+
+
+    
+
 
 
 # =============================================================================
@@ -270,7 +324,11 @@ def solve(graph, spawn, relics, exit_node):
 
     TODO
     """
-    pass
+    distances = precompute_distances(graph, spawn, relics, exit_node)
+    optimal = find_optimal_route(distances, spawn, relics, exit_node)
+
+    
+    return optimal
 
 
 # =============================================================================
@@ -338,19 +396,26 @@ def _run_tests():
 
 
 if __name__ == "__main__":
-    # _run_tests()
+    _run_tests()
+
+    """
+    spawn = 'S'
+    relics = ['B', 'C', 'D']
+    exit_node = 'T'
     source =  select_sources('S', ['B', 'C', 'D'], 'T')
     print(source)
     graph_1 = {
         'S': [('B', 1), ('C', 2), ('D', 2)],
-        'B': [('D', 1), ('T', 1)],
+        'B': [('D', 5), ('T', 1)],
         'C': [('B', 1), ('T', 1)],
         'D': [('B', 1), ('C', 1)],
         'T': []
     }
 
     dist = precompute_distances(graph_1, 'S', ['B', 'C', 'D'], 'T')
-    print(dist)
+    optimal = find_optimal_route(dist, spawn, relics, exit_node)
+    """
+
     
 
 
