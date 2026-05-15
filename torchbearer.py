@@ -141,14 +141,10 @@ def precompute_distances(graph, spawn, relics, exit_node):
     length = len(sources)
     for i in range(length):
         compute = run_dijkstra(graph, sources[i])
-        print(sources[i])
 
         for key in compute:
-            print(f"{key}, {compute[key]}")
             distances[sources[i]][key] = compute[key]
     print("finished\n")
-    for source, row in distances.items():
-        print(f"{source}: {row}")
 
     return distances
 
@@ -166,7 +162,27 @@ def dijkstra_invariant_check():
 
     TODO
     """
-    return "TODO"
+    return """
+    Part 3a: What the Invariant Means
+    Two bullets: one for finalized nodes, one for non-finalized nodes. Do not copy the invariant text from the spec.
+
+    For nodes already finalized (in S): For finalized nodes, the value of dict[v] will contain the shortest path from a given source.
+
+    For nodes not yet finalized (not in S): For unfinalized node, dict[v] will hold the current shortest path that has been found, but there could exist a true shortest path.
+
+    Part 3b: Why Each Phase Holds
+    One to two bullets per phase. Maintenance must mention nonnegative edge weights.
+
+    Initialization : why the invariant holds before iteration 1: The heap must not be empty and the distance from source to itself must be 0.
+
+    Maintenance : why finalizing the min-dist node is always correct: This allows us to skip stale entries, and avoid recomputing paths that are clearly not going to produce shorter paths.
+
+    Termination : what the invariant guarantees when the algorithm ends: The heap will be empty and all entries in dict will hold the true shortest path from source to every other node.
+
+    Part 3c: Why This Matters for the Route Planner
+    One sentence connecting correct distances to correct routing decisions.
+   
+    """
 
 
 # =============================================================================
@@ -183,7 +199,22 @@ def explain_search():
 
     TODO
     """
-    return "TODO"
+    return """
+    Why Greedy Fails
+    State the failure mode. Then give a concrete counter-example using specific node names or costs (you may use the illustration example from the spec). Three to five bullets.
+
+    I will be using the following graph, a variation of graph_1 graph = { 'S': [('B', 1), ('C', 2), ('D', 2)], 'B': [('D', 5), ('T', 1)], 'C': [('B', 1), ('T', 1)], 'D': [('B', 1), ('C', 1)], 'T': [] }
+
+    The failure mode: This example fails because when using a purely greedy implementation, would take 'B' first since its the locally optimal choice, but then forces you but it forces you to incur 5, right after with no way to back track.
+    Counter-example setup: The real optimal answer would be S->D->C->B->T. with a cost of 5. Picking a not optimal choice of 'D' first, allows us to avoid the heavy penalty you would incur from taking the 'B' path first.
+    What greedy picks: Greedy picks after 'S', greedy would pick 'B' first, as it the cheapest out of the other sources.
+    What optimal picks: Optimal picks 'D' first since we incur a smaller penalty first, but can avoid taking a heavy penalty later.
+    Why greedy loses: Greedy loses because we go with the locally optimal choice 'B', however for a problem like this, you would bneed to explore other paths before committing to one.
+    What the Algorithm Must Explore
+    One bullet. Must use the word "order."
+
+    The algorithm must explore all the possible paths. Since there is a limited number of relics, you could get the permutation of relic orders, and traverse the graph that way.
+    """
 
 
 # =============================================================================
@@ -295,14 +326,6 @@ def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
 
 
         
-        
-        
-
-
-    
-
-
-
 # =============================================================================
 # PIPELINE
 # =============================================================================
