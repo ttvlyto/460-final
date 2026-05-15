@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 CS 460 – Algorithms: Final Programming Assignment
 The Torchbearer
@@ -65,7 +64,7 @@ def select_sources(spawn, relics, exit_node):
     """
 
     source = []
-    source.append(spawn)
+    source.append(spawn) #add spawn and all relics to source, pretty self explanatory
     for i in range(len(relics)):
         source.append(relics[i])
 
@@ -92,24 +91,24 @@ def run_dijkstra(graph, source):
     TODO
     """
 
-    dist = {node: float('inf') for node in graph}
-    dist[source] = 0
-    heap = []
+    dist = {node: float('inf') for node in graph} #create dict for every node in graph, and init to inf
+    dist[source] = 0 #set source node distance to 0
+    heap = [] #init heap and add spawn node immediately
     heapq.heappush(heap, (0,source))
 
 
-    while heap:
-        smallest_dist, smallest_elem = heapq.heappop(heap)
+    while heap: #loop until heap is empty
+        smallest_dist, smallest_elem = heapq.heappop(heap) #pop off the heap
 
-        if smallest_dist > dist[smallest_elem]:
+        if smallest_dist > dist[smallest_elem]: #skip elements that wont beat smallest distance already calulated
             continue
 
         length = len(graph[smallest_elem])
         for i in range(length): #discover edges
-            t = (graph[smallest_elem][i][1], graph[smallest_elem][i][0])
+            t = (graph[smallest_elem][i][1], graph[smallest_elem][i][0]) # create temp tuple for pushing into heap
             new_dist = dist[smallest_elem] + t[0]
-            if new_dist < dist[t[1]]:
-                 heapq.heappush(heap, t)
+            if new_dist < dist[t[1]]:  
+                 heapq.heappush(heap, t) #push onto heap if the new distance results in smaller distance
                  dist[t[1]] = new_dist
 
 
@@ -135,16 +134,14 @@ def precompute_distances(graph, spawn, relics, exit_node):
     TODO
     """
     sources = select_sources(spawn, relics, exit_node)
-    distances = {node: {nodes: float('inf') for nodes in graph} for node in sources}
-    print("Begining computation")
+    distances = {node: {nodes: float('inf') for nodes in graph} for node in sources} #nested dict, with as required to return, and set everything to inf
 
-    length = len(sources)
-    for i in range(length):
-        compute = run_dijkstra(graph, sources[i])
+    length = len(sources) 
+    for i in range(length): 
+        compute = run_dijkstra(graph, sources[i]) #do dijktras for each source node
 
         for key in compute:
-            distances[sources[i]][key] = compute[key]
-    print("finished\n")
+            distances[sources[i]][key] = compute[key] # add all entries for current source to respective place in lookup table, dist[u][v] for lookups
 
     return distances
 
@@ -243,16 +240,15 @@ def find_optimal_route(dist_table, spawn, relics, exit_node):
     """
 
 
-    best = [float('inf'), []]
+    best = [float('inf'), []] #hold the best current found cost, along with respective nodes that made up the route
     cost_so_far = 0
-    curr_loc = spawn
-    remaining_relics = relics
-    relics_visited_order = []
+    curr_loc = spawn #set current to spawn node to begin the iteration
+    remaining_relics = relics #all relics are remaining before recursion
+    relics_visited_order = [] # no relics are visited before recursion
 
     _explore(dist_table, curr_loc, remaining_relics, relics_visited_order, cost_so_far, exit_node, best)
-    print(best)
 
-    return tuple(best)
+    return tuple(best) # cast to tuple type as expected
 
 
 
@@ -292,35 +288,25 @@ def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
 
     length = len(relics_remaining)
 
-    print(f"relics remaining: {length}")
-
-    if length == 0:
-        if dist_table[current_loc][exit_node]:
-            if cost_so_far < best[0]:
-                best[0] = cost_so_far + dist_table[current_loc][exit_node]
-                best[1] = list(relics_visited_order)
+    if length == 0: # if no more relics, then we are at the end
+        if dist_table[current_loc][exit_node]: # check if there exist a path from current key to exit node
+            if cost_so_far < best[0]: # check if the cost is better than our current best
+                best[0] = cost_so_far + dist_table[current_loc][exit_node] # newly found cost becomes our best
+                best[1] = list(relics_visited_order) # make copy of list order for visted relics
                 return
         
         return 
-    elif cost_so_far > best[0]:
+    elif cost_so_far > best[0]: # pruning step, if the current path incurred a higher cost than our best, then its no longer worth following this path
         return
     else:
-        """
-        next_node = relics_remaining.pop(0)
-        relics_visited_order.append(next_node)
-        print(f"curr node{current_loc}, node popped off {next_node}")
-
-        cost_so_far += dist_table[current_loc][next_node]
-        current_loc = next_node
-        print(f"new cost: {cost_so_far}\n")
-        """
-        for relic in list(relics_remaining): # relic remaining
+        for relic in list(relics_remaining): # loop over relics remaining, but use shallow copy 
             relics_remaining.remove(relic)
-            relics_visited_order.append(relic)
-            cost = cost_so_far + dist_table[current_loc][relic]
-            print(f"curr node{current_loc}, node popped off {relic}")
-            print(f"cost: {cost}\n")
-            _explore(dist_table, relic, relics_remaining, relics_visited_order, cost, exit_node, best)   
+            relics_visited_order.append(relic) # remove relic from remaining and mark as visited
+
+            cost = cost_so_far + dist_table[current_loc][relic] # update cost
+            _explore(dist_table, relic, relics_remaining, relics_visited_order, cost, exit_node, best) # use recursion to visit the next node
+            # backtrack step, if we return from above, then we can remove from visited and add back to remaing 
+            # allows for us to uncommit from a path and try a new one
             relics_visited_order.pop()
             relics_remaining.append(relic)
 
@@ -420,26 +406,6 @@ def _run_tests():
 
 if __name__ == "__main__":
     _run_tests()
-
-    """
-    spawn = 'S'
-    relics = ['B', 'C', 'D']
-    exit_node = 'T'
-    source =  select_sources('S', ['B', 'C', 'D'], 'T')
-    print(source)
-    graph_1 = {
-        'S': [('B', 1), ('C', 2), ('D', 2)],
-        'B': [('D', 5), ('T', 1)],
-        'C': [('B', 1), ('T', 1)],
-        'D': [('B', 1), ('C', 1)],
-        'T': []
-    }
-
-    dist = precompute_distances(graph_1, 'S', ['B', 'C', 'D'], 'T')
-    optimal = find_optimal_route(dist, spawn, relics, exit_node)
-    """
-
-    
 
 
 
